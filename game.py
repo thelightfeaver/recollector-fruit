@@ -21,6 +21,7 @@ class Spike(pygame.sprite.Sprite):
     def update(self, dt):
         self._move(dt)
 
+
 class Fruit(pygame.sprite.Sprite):
     def __init__(self, pos: set, value: int = 5):
         super(Fruit, self).__init__()
@@ -38,6 +39,7 @@ class Fruit(pygame.sprite.Sprite):
 
     def update(self, dt):
         self._move(dt)
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos: set):
@@ -96,7 +98,6 @@ class Game:
     def collision(self):
         for fruit in self.fruitsprite:
             if pygame.sprite.spritecollide(fruit, self.playersprite, False):
-                
                 if isinstance(fruit, Spike):
                     self.lives -= 1
                     if self.lives == 0:
@@ -107,7 +108,7 @@ class Game:
 
     def generate_fruit(self):
         current_time = pygame.time.get_ticks()
-        
+
         if current_time - self.coldown >= 2000:
             x, y = random.choice([70, 150, 300, 600, 750]), 0
             if random.choice([True, False]):

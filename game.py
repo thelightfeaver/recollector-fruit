@@ -110,7 +110,7 @@ class Game:
                     self.lives -= 1
                     if self.lives == 0:
                         self.running = False
-                    
+
                 else:
                     self.score += fruit.value
                     fruit.kill()
@@ -119,11 +119,15 @@ class Game:
         current_time = pygame.time.get_ticks()
 
         if current_time - self.coldown >= 2000:
-            x, y, fruit = random.choice([70, 150, 300, 600, 750]), 0, random.choice(self.frutas)
-            if random.choice([True, False]):
-                self.fruitsprite.add(Fruit(pos=(x, y), 
-                                           value=fruit["value"], 
-                                           image=fruit["image"]))
+            x, y, fruit = (
+                random.choice([70, 150, 300, 600, 750]),
+                0,
+                random.choice(self.frutas),
+            )
+            if random.choice([True, True, True, True, False]):
+                self.fruitsprite.add(
+                    Fruit(pos=(x, y), value=fruit["value"], image=fruit["image"])
+                )
             else:
                 self.fruitsprite.add(Spike(pos=(x, y)))
             self.coldown = current_time

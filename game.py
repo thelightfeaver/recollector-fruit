@@ -99,9 +99,11 @@ class Game:
         for fruit in self.fruitsprite:
             if pygame.sprite.spritecollide(fruit, self.playersprite, False):
                 if isinstance(fruit, Spike):
+                    fruit.kill()
                     self.lives -= 1
                     if self.lives == 0:
                         self.running = False
+                    
                 else:
                     self.score += fruit.value
                     fruit.kill()

@@ -7,8 +7,8 @@ import pygame
 class Spike(pygame.sprite.Sprite):
     def __init__(self, pos: set):
         super(Spike, self).__init__()
-        self.image = pygame.Surface((50, 50))
-        self.image.fill("black")
+        self.image = pygame.image.load("assets/espina.png")
+        self.image = pygame.transform.scale(self.image, (80, 80))
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.speed = 10
@@ -23,10 +23,10 @@ class Spike(pygame.sprite.Sprite):
 
 
 class Fruit(pygame.sprite.Sprite):
-    def __init__(self, pos: set, value: int = 5):
+    def __init__(self, pos: set, value: int = 5, image: str = ""):
         super(Fruit, self).__init__()
-        self.image = pygame.Surface((50, 50))
-        self.image.fill("red")
+        self.image = pygame.image.load(image)
+        self.image = pygame.transform.scale(self.image, (80, 80))
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.speed = random.choice([20, 15, 10])
@@ -44,7 +44,7 @@ class Fruit(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos: set):
         super(Player, self).__init__()
-        self.image = pygame.image.load("assets/basket.png")
+        self.image = pygame.image.load("assets/canasta.png")
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.center = pos
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed * dt * 2
 
-        if keys[pygame.K_RIGHT] and self.rect.x < 750:
+        if keys[pygame.K_RIGHT] and self.rect.x < 700:
             self.rect.x += self.speed * dt * 2
 
     def update(self, dt):
@@ -69,6 +69,13 @@ class Game:
         self.lives = 3
         self.level = 1
         self.state = "start"
+        self.frutas = [
+            {"image": "assets/manzana.png", "value": 10},
+            {"image": "assets/banana.png", "value": 5},
+            {"image": "assets/pera.png", "value": 15},
+            {"image": "assets/uva.png", "value": 20},
+            {"image": "assets/sandia.png", "value": 25},
+        ]
         self.playersprite = pygame.sprite.GroupSingle(Player(pos=(350, 550)))
         self.fruitsprite = pygame.sprite.Group()
         self.coldown = 0
@@ -112,9 +119,11 @@ class Game:
         current_time = pygame.time.get_ticks()
 
         if current_time - self.coldown >= 2000:
-            x, y = random.choice([70, 150, 300, 600, 750]), 0
+            x, y, fruit = random.choice([70, 150, 300, 600, 750]), 0, random.choice(self.frutas)
             if random.choice([True, False]):
-                self.fruitsprite.add(Fruit(pos=(x, y), value=10))
+                self.fruitsprite.add(Fruit(pos=(x, y), 
+                                           value=fruit["value"], 
+                                           image=fruit["image"]))
             else:
                 self.fruitsprite.add(Spike(pos=(x, y)))
             self.coldown = current_time

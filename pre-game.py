@@ -83,6 +83,7 @@ class Game:
         self.coldown = 0
         self.start()
 
+    # Iniciar
     def start(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
@@ -91,12 +92,14 @@ class Game:
         self.running = True
         self.coldown = pygame.time.get_ticks()
 
+    # Dibujar
     def draw(self, dt):
         self.playersprite.draw(self.screen)
         self.playersprite.update(dt)
         self.fruitsprite.draw(self.screen)
         self.fruitsprite.update(dt)
 
+    # Dibujar texto
     def draw_text(self, text, size, color, x, y):
         font = pygame.font.Font(pygame.font.get_default_font(), size)
         text_surface = font.render(text, True, color)
@@ -104,6 +107,7 @@ class Game:
         text_rect.center = (x, y)
         self.screen.blit(text_surface, text_rect)
 
+    # Colisiones
     def collision(self):
         for fruit in self.fruitsprite:
             if pygame.sprite.spritecollide(fruit, self.playersprite, False):
@@ -116,7 +120,8 @@ class Game:
                 else:
                     self.score += fruit.value
                     fruit.kill()
-
+    
+    # generar frutas y espinas
     def generate_fruit(self):
         current_time = pygame.time.get_ticks()
 
@@ -138,6 +143,7 @@ class Game:
 
     def run(self):
         while self.running:
+            # Tiempo de juego.
             dt = self.clock.tick(60) / 100
             self.screen.fill("white")
 

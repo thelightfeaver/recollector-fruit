@@ -152,7 +152,7 @@ class Game:
                     self.running = False
            
             # Escenario de juego.
-            self.state(dt)
+            self.estado(dt)
             
             # Actualizar pagina.
             pygame.display.update()
@@ -161,7 +161,11 @@ class Game:
         pygame.quit()
         sys.exit()
 
-    def state(self, dt):
+    def mostrar_graficos(self):
+        self.draw_text(f"Score: {self.score}", 30, "black", 65, 19)
+        self.draw_text(f"Lives: {self.lives}", 30, "black", 735, 19)
+        
+    def estado(self, dt):
         pass
 
 if __name__ == "__main__":
